@@ -10,7 +10,14 @@ func GetMetrics() defs.Response {
 
   info["hostname"] = "poop"
 
-  resp := defs.Response{Metrics: []defs.Metric{defs.Metric{info, 1.2345}}}
+  metric := defs.Metric{
+    info, 1.2345,
+    []string{"ass"},
+  }
 
-  return resp
+  return defs.Response{
+    Metrics: []defs.Metric{
+      metric,
+    },
+  }
 }
