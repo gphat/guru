@@ -29,7 +29,7 @@ func main() {
       for plugin_name, f := range plugins {
         hostname, err := os.Hostname()
         if err != nil {
-          fmt.Printf("Shit, error: %v\n", err)
+          fmt.Printf("Error fetching hostname: %v\n", err)
         }
         var hi = HostInfo{hostname: hostname}
 
