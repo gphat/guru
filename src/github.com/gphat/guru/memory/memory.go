@@ -64,8 +64,6 @@ func GetMetrics() defs.Response {
       info["what"] = name
       info["target_type"] = "gauge"
 
-      log.Printf("%v\n", memline)
-      log.Printf("\t%v\n", len(parts))
       metrics = append(metrics, defs.Metric{
           Info:   info,
           Value:  floatval,
