@@ -7,6 +7,7 @@ import (
   "time"
   "github.com/gphat/guru/defs"
   "github.com/gphat/guru/memory"
+  "github.com/gphat/guru/vmstat"
 )
 
 type HostInfo struct {
@@ -17,6 +18,7 @@ func main() {
 
   plugins := map[string]func() defs.Response{
     "memory": memory.GetMetrics,
+    "vmstat": vmstat.GetMetrics,
   }
 
   ticker := time.NewTicker(time.Millisecond * 1000)

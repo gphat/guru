@@ -1,4 +1,4 @@
-package memory
+package vmstat
 
 import (
   "bufio"
@@ -11,7 +11,7 @@ import (
 
 func GetMetrics() defs.Response {
 
-  file, err := os.Open("/proc/meminfo")
+  file, err := os.Open("/proc/vmstat")
   if err != nil {
     // That's weird. Oh well, we'll have to emit an error and return
     // empty work.
@@ -30,39 +30,32 @@ func GetMetrics() defs.Response {
       parts := strings.Fields(memline)
 
       // Each of these lines is:
-      // 0 - Name (MemTotal)
+      // 0 - Name (nr_free_pages)
       // 1 - Value (12345)
-      // 2 - Unit (kB)
 
       // Make sure we got something that looks correct in terms of fields
-      if(len(parts) > 3 || len(parts) < 2) {
+      if(len(parts) != 2) {
         // Weird. Don't know how to grok this line so spit it out and
         // move on
-        log.Printf("Expected 2 or 3 fields, got something else: %v", memline)
+        log.Printf("Expected 2 fields, got something else: %v", memline)
         continue
       }
 
       // Make sure we can parse the memory value as a float 64, else
       // we'll skip.
-      floatval, fconverr := strconv.ParseFloat(parts[1], 64)
+      floatval, fconverr := strconv.ParseFloat(parts[0], 64)
       if fconverr != nil {
-        log.Printf("Cannot parse memory value '%v' as float64, skipping\n", parts[1])
+        log.Printf("Cannot parse vmstat value '%v' as float64, skipping\n", parts[1])
         continue
       }
 
       // Line looks good, make the info struct so we can send it back
       info := make(map[string]string)
-      if(len(parts) == 3) {
-        // If we have 3 then the last one is the unit
-        info["unit"] = parts[2]
-      } else {
-        // If not then the unit is the # pages
-        info["unit"] = "Page"
-      }
 
       // Don't want that pesky :
-      name := strings.Replace(parts[0], ":", "", 1)
+      name := parts[0]
       info["what"] = name
+      info["unit"] = "Page"
       info["target_type"] = "gauge"
 
       metrics = append(metrics, defs.Metric{
