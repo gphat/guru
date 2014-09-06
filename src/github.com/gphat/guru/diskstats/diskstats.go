@@ -11,7 +11,7 @@ import (
 
 func GetMetrics() defs.Response {
 
-  file, err := os.Open("/proc/net/dev")
+  file, err := os.Open("/proc/diskstats")
   if err != nil {
     // That's weird. Oh well, we'll have to emit an error and return
     // empty work.
