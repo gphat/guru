@@ -24,7 +24,7 @@ func GetMetrics() defs.Response {
   scanner := bufio.NewScanner(file)
   for scanner.Scan() {
       memline := scanner.Text()
-      parts := strings.Split(memline, " ")
+      parts := strings.Fields(memline)
       log.Printf("%v\n", memline)
       log.Printf("\t%v\n", len(parts))
   }
