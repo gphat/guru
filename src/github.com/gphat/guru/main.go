@@ -6,6 +6,7 @@ import (
   "os"
   "time"
   "github.com/gphat/guru/defs"
+  "github.com/gphat/guru/diskstats"
   "github.com/gphat/guru/memory"
   "github.com/gphat/guru/vmstat"
 )
@@ -17,6 +18,7 @@ type HostInfo struct {
 func main() {
 
   plugins := map[string]func() defs.Response{
+    "diskstats": diskstats.GetMetrics,
     "memory": memory.GetMetrics,
     "vmstat": vmstat.GetMetrics,
   }
@@ -38,6 +40,7 @@ func main() {
         // XXX We don't have the hostname yet. It seems better to add
         // "global" values to the Metric's Info field. Some example:
         //  * server=hostname
+        //  * guru module?=memory or whatever
         // meta value for agent (guru)
         if(len(resp.Metrics) > 0) {
           for _,met := range resp.Metrics {

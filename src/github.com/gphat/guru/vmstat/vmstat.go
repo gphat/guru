@@ -59,8 +59,8 @@ func GetMetrics() defs.Response {
       info["target_type"] = "gauge"
 
       metrics = append(metrics, defs.Metric{
-          Info:   info,
-          Value:  floatval,
+        Info:   info,
+        Value:  floatval,
       })
   }
 
