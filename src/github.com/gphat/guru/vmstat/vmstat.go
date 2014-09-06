@@ -7,10 +7,12 @@ import (
   "os"
   "strconv"
   "strings"
+  "time"
 )
 
 func GetMetrics() defs.Response {
 
+  timestamp := time.Now()
   file, err := os.Open("/proc/vmstat")
   if err != nil {
     // That's weird. Oh well, we'll have to emit an error and return
@@ -59,8 +61,9 @@ func GetMetrics() defs.Response {
       info["target_type"] = "gauge"
 
       metrics = append(metrics, defs.Metric{
-        Info:   info,
-        Value:  floatval,
+        Timestamp:  timestamp,
+        Info:       info,
+        Value:      floatval,
       })
   }
 
