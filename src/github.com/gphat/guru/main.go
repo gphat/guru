@@ -38,7 +38,9 @@ func main() {
         //  * server=hostname
         // meta value for agent (guru)
         if(len(resp.Metrics) > 0) {
-          fmt.Println(resp.Metrics[0])
+          for _,met := range resp.Metrics {
+            log.Println(met)
+          }
         } else {
           log.Printf("Plugin '%v' returned 0 metrics.\n", plugin_name)
         }
