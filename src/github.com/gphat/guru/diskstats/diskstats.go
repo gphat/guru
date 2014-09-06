@@ -62,11 +62,11 @@ func GetMetrics() defs.Response {
         continue
       }
 
-      // Make sure we can parse the memory value as a float 64, else
+      // Make sure we can parse the value as a float 64, else
       // we'll skip.
       floatval, fconverr := strconv.ParseFloat(parts[i], 64)
       if fconverr != nil {
-        log.Printf("Cannot parse dikstats value '%v' as float64, skipping\n", parts[1])
+        log.Printf("Cannot parse diskstats value '%v' as float64, skipping\n", parts[1])
         continue
       }
 
