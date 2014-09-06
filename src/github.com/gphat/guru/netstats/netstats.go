@@ -50,20 +50,20 @@ func GetMetrics() defs.Response {
     // 14 - carrier
     // 15 - compressed
 
-    // Make sure we got something that looks correct in terms of fields
-    if(len(parts) != 17) {
-      // Weird. Don't know how to grok this line so spit it out and
-      // move on
-      log.Printf("Expected 17 fields, got something else: %v", memline)
-      continue
-    }
-
     info := make(map[string]string)
 
     iface := strings.Replace(parts[0], ":", "", 1)
 
     if(strings.HasPrefix(iface, "lo") || strings.HasPrefix(iface, "Inter") || strings.HasPrefix(iface, " face")) {
       // We're going to skip loop devices and headers
+      continue
+    }
+
+    // Make sure we got something that looks correct in terms of fields
+    if(len(parts) != 17) {
+      // Weird. Don't know how to grok this line so spit it out and
+      // move on
+      log.Printf("Expected 17 fields, got something else: %v", memline)
       continue
     }
 
