@@ -37,7 +37,7 @@ func main() {
         if(len(resp.Metrics) > 0) {
           fmt.Println(resp.Metrics[0])
         } else {
-          log.Print("Plugin %v returned 0 metrics.", plugin_name)
+          log.Printf("Plugin '%v' returned 0 metrics.\n", plugin_name)
         }
         fmt.Println("Ticker at", t)
       }
