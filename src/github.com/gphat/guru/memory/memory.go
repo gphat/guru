@@ -35,7 +35,7 @@ func GetMetrics() defs.Response {
       // 2 - Unit (kB)
 
       // Make sure we got something that looks correct in terms of fields
-      if(len(parts) != 3 || len(parts) != 2) {
+      if(len(parts) > 3 || len(parts) < 2) {
         // Weird. Don't know how to grok this line so spit it out and
         // move on
         log.Printf("Expected 2 or 3 fields, got something else: %v", memline)
