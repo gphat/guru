@@ -2,6 +2,7 @@ package main
 
 import (
   "fmt"
+  "log"
   "os"
   "time"
   "github.com/gphat/guru/defs"
@@ -30,10 +31,14 @@ func main() {
         }
         var hi = HostInfo{hostname: hostname}
 
+        fmt.Printf("Hello, from %v\n", hi.hostname)
         fmt.Printf("Running: %v\n", plugin_name)
         resp := f()
-        fmt.Println(resp.Metrics[0])
-        fmt.Printf("Hello, from %v\n", hi.hostname)
+        if(len(resp.Metrics) > 0) {
+          fmt.Println(resp.Metrics[0])
+        } else {
+          log.Print("Plugin %v returned 0 metrics.", plugin_name)
+        }
         fmt.Println("Ticker at", t)
       }
     }
