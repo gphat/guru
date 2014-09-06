@@ -1,7 +1,7 @@
-all: bin/hello
+all: bin/guru
 
-bin/hello: src/github.com/gphat/hello/hello.go
-	go install github.com/gphat/hello
+bin/guru: src/github.com/gphat/guru/guru.go
+	go install github.com/gphat/guru
 
 clean:
 	rm -rf bin/*
