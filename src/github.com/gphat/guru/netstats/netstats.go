@@ -51,10 +51,10 @@ func GetMetrics() defs.Response {
     // 15 - compressed
 
     // Make sure we got something that looks correct in terms of fields
-    if(len(parts) != 16) {
+    if(len(parts) != 17) {
       // Weird. Don't know how to grok this line so spit it out and
       // move on
-      log.Printf("Expected 16 fields, got something else: %v", memline)
+      log.Printf("Expected 17 fields, got something else: %v", memline)
       continue
     }
 
@@ -68,7 +68,7 @@ func GetMetrics() defs.Response {
     }
 
     // Line looks good, loop over the fields
-    for i := 1; i < 15; i++ {
+    for i := 1; i < 16; i++ {
 
       // Make sure we can parse the value as a float 64, else
       // we'll skip.
