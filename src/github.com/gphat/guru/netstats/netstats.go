@@ -27,6 +27,12 @@ func GetMetrics() defs.Response {
   scanner := bufio.NewScanner(file)
   for scanner.Scan() {
     memline := scanner.Text()
+
+    if(strings.HasPrefix(memline, "Inter") || strings.HasPrefix(memline, " face")) {
+      // Skip headers
+      continue
+    }
+
     parts := strings.Fields(memline)
 
     // Each of these lines is:
@@ -52,8 +58,8 @@ func GetMetrics() defs.Response {
 
     iface := strings.Replace(parts[0], ":", "", 1)
 
-    if(strings.HasPrefix(iface, "lo") || strings.HasPrefix(iface, "Inter") || strings.Contains(iface, " face")) {
-      // We're going to skip loop devices and headers
+    if(strings.HasPrefix(iface, "lo")) {
+      // We're going to skip loop devices
       continue
     }
 
