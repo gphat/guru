@@ -43,7 +43,7 @@ func GetMetrics() defs.Response {
 
       // Make sure we can parse the memory value as a float 64, else
       // we'll skip.
-      floatval, fconverr := strconv.ParseFloat(parts[0], 64)
+      floatval, fconverr := strconv.ParseFloat(parts[1], 64)
       if fconverr != nil {
         log.Printf("Cannot parse vmstat value '%v' as float64, skipping\n", parts[1])
         continue
