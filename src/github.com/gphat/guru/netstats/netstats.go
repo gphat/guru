@@ -50,11 +50,9 @@ func GetMetrics() defs.Response {
     // 14 - carrier
     // 15 - compressed
 
-    info := make(map[string]string)
-
     iface := strings.Replace(parts[0], ":", "", 1)
 
-    if(strings.HasPrefix(iface, "lo") || strings.HasPrefix(iface, "Inter") || strings.HasPrefix(iface, " face")) {
+    if(strings.HasPrefix(iface, "lo") || strings.HasPrefix(iface, "Inter") || strings.Contains(iface, " face")) {
       // We're going to skip loop devices and headers
       continue
     }
@@ -70,6 +68,7 @@ func GetMetrics() defs.Response {
     // Line looks good, loop over the fields
     for i := 1; i < 16; i++ {
 
+      info := make(map[string]string)
       // Make sure we can parse the value as a float 64, else
       // we'll skip.
       floatval, fconverr := strconv.ParseFloat(parts[i], 64)
