@@ -7,6 +7,7 @@ import (
   "time"
   "github.com/gphat/guru/defs"
   "github.com/gphat/guru/diskstats"
+  "github.com/gphat/guru/loadavg"
   "github.com/gphat/guru/memory"
   "github.com/gphat/guru/netstats"
   "github.com/gphat/guru/vmstat"
@@ -20,6 +21,7 @@ func main() {
 
   plugins := map[string]func() defs.Response{
     "diskstats": diskstats.GetMetrics,
+    "loadavg": loadavg.GetMetrics,
     "memory": memory.GetMetrics,
     "netstats": netstats.GetMetrics,
     "vmstat": vmstat.GetMetrics,

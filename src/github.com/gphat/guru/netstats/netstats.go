@@ -81,7 +81,7 @@ func GetMetrics() defs.Response {
       // we'll skip.
       floatval, fconverr := strconv.ParseFloat(parts[i], 64)
       if fconverr != nil {
-        log.Printf("Cannot parse net/dev value '%v' as float64, skipping\n", parts[1])
+        log.Printf("Cannot parse net/dev value '%v' as float64, skipping\n", parts[i])
         continue
       }
 
