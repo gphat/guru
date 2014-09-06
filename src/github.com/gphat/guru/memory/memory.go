@@ -2,10 +2,10 @@ package memory
 
 import (
   "bufio"
-  "fmt"
   "github.com/gphat/guru/defs"
   "log"
   "os"
+  "strings"
 )
 
 func GetMetrics() defs.Response {
@@ -23,7 +23,10 @@ func GetMetrics() defs.Response {
 
   scanner := bufio.NewScanner(file)
   for scanner.Scan() {
-      fmt.Println(scanner.Text())
+      memline := scanner.Text()
+      parts := strings.Split(memline, " ")
+      log.Printf("%v\n", memline)
+      log.Printf("\t%v\n", len(parts))
   }
 
   if err := scanner.Err(); err != nil {
