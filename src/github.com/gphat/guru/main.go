@@ -4,8 +4,9 @@ import (
   "fmt"
   "os"
   "time"
-  "github.com/gphat/defs"
-  "github.com/gphat/system"
+  "github.com/gphat/guru/defs"
+  "github.com/gphat/guru/memory"
+  "github.com/gphat/guru/system"
 )
 
 type HostInfo struct {
@@ -14,7 +15,10 @@ type HostInfo struct {
 
 func main() {
 
-  plugins := map[string]func() defs.Response{ "poop": system.GetMetrics }
+  plugins := map[string]func() defs.Response{
+    "poop":   system.GetMetrics,
+    "memory": memory.GetMetrics,
+  }
 
   ticker := time.NewTicker(time.Millisecond * 1000)
   go func() {

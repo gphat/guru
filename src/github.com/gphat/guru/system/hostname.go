@@ -1,7 +1,7 @@
 package system
 
- import (
-  "github.com/gphat/defs"
+import (
+  "github.com/gphat/guru/defs"
 )
 
 // Sqrt returns an approximation to the square root of x.
