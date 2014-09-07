@@ -45,21 +45,23 @@ func GetMetrics() defs.Response {
         continue
       }
 
-      // Line looks good, make the info struct so we can send it back
-      info := make(map[string]string)
-
-      // These are common
-      info["target_type"] = "counter"
 
       // We can't do an exact switch because we need to do some matching
       // so we'll use a boolean
       // TODO: interrupts? (intr)
       switch {
         case sigil == "ctxt":
+          info := make(map[string]string)
+          info["target_type"] = "counter"
           info["what"] = "ctxt"
           info["unit"] = "Event"
+          metrics = append(metrics, defs.Metric{
+            Timestamp:  timestamp,
+            Info:       info,
+            Value:      floatval,
+          })
+
         case cpuLine.MatchString(sigil):
-          log.Printf("ASDASDASD")
           // This one needs to be first because later we'll check for cpu
           ParseCPULine(timestamp, metrics, parts)
           continue
@@ -75,12 +77,6 @@ func GetMetrics() defs.Response {
           // Ignore the other stuff
           continue
       }
-
-      metrics = append(metrics, defs.Metric{
-        Timestamp:  timestamp,
-        Info:       info,
-        Value:      floatval,
-      })
   }
 
   if err := scanner.Err(); err != nil {
@@ -98,6 +94,7 @@ func ParseCPULine(timestamp time.Time, metrics []defs.Metric, parts []string) {
     info := make(map[string]string)
     info["unit"] = "Jiff"
     info["device"] = parts[0]
+    info["target_type"] = "counter"
 
     floatval, fconverr := strconv.ParseFloat(parts[1], 64)
     if fconverr != nil {
