@@ -50,9 +50,9 @@ func main() {
         //  * guru module?=memory or whatever
         // meta value for agent (guru)
         if(len(resp.Metrics) > 0) {
-          for _,met := range resp.Metrics {
-            fmt.Fprintf(conn, fmt.Sprintf("%v", met))
-            log.Println(met)
+          for _, met := range resp.Metrics {
+            fmt.Fprintf(conn, defs.StringifyMetric(met))
+            log.Println(defs.StringifyMetric(met))
           }
         } else {
           log.Printf("Plugin '%v' returned 0 metrics.\n", plugin_name)
