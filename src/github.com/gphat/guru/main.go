@@ -31,6 +31,10 @@ func main() {
     // blah
   }
 
+  // Collect some metadata to use with the metrics
+  meta := make(map[string]string)
+  meta["agent"] = "guru"
+
   ticker := time.NewTicker(time.Millisecond * 1000)
   go func() {
     for t := range ticker.C {
@@ -51,8 +55,8 @@ func main() {
         // meta value for agent (guru)
         if(len(resp.Metrics) > 0) {
           for _, met := range resp.Metrics {
-            fmt.Fprintf(conn, defs.StringifyMetric(met))
-            log.Println(defs.StringifyMetric(met))
+            fmt.Fprintf(conn, defs.StringifyMetric(hostname, meta, met))
+            log.Println(defs.StringifyMetric(hostname, meta, met))
           }
         } else {
           log.Printf("Plugin '%v' returned 0 metrics.\n", plugin_name)

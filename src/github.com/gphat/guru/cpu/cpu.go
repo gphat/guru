@@ -44,7 +44,6 @@ func GetMetrics() defs.Response {
         continue
       }
 
-
       // We can't do an exact switch because we need to do some matching
       // so we'll use a boolean
       // TODO: interrupts? (intr)
