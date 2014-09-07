@@ -54,6 +54,7 @@ func GetMetrics() defs.Response {
       // We can't do an exact switch because we need to do some matching
       // so we'll use a boolean
       // TODO: interrupts? (intr)
+      log.Printf(sigil)
       switch {
         case sigil == "ctxt":
           info["what"] = "ctxt"

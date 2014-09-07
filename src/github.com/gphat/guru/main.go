@@ -7,11 +7,11 @@ import (
   "time"
   "github.com/gphat/guru/cpu"
   "github.com/gphat/guru/defs"
-  "github.com/gphat/guru/diskstats"
-  "github.com/gphat/guru/loadavg"
-  "github.com/gphat/guru/memory"
-  "github.com/gphat/guru/netstats"
-  "github.com/gphat/guru/vmstat"
+  // "github.com/gphat/guru/diskstats"
+  // "github.com/gphat/guru/loadavg"
+  // "github.com/gphat/guru/memory"
+  // "github.com/gphat/guru/netstats"
+  // "github.com/gphat/guru/vmstat"
 )
 
 type HostInfo struct {
@@ -22,11 +22,11 @@ func main() {
 
   plugins := map[string]func() defs.Response{
     "cpu": cpu.GetMetrics,
-    "diskstats": diskstats.GetMetrics,
-    "loadavg": loadavg.GetMetrics,
-    "memory": memory.GetMetrics,
-    "netstats": netstats.GetMetrics,
-    "vmstat": vmstat.GetMetrics,
+    // "diskstats": diskstats.GetMetrics,
+    // "loadavg": loadavg.GetMetrics,
+    // "memory": memory.GetMetrics,
+    // "netstats": netstats.GetMetrics,
+    // "vmstat": vmstat.GetMetrics,
   }
 
   ticker := time.NewTicker(time.Millisecond * 1000)
