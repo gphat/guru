@@ -6,8 +6,12 @@ daemon that collects metrics about the running system written in [Go](http://gol
 # Goals
 
 * Work on modern Linuxes (>= 2.6.11)
-* Adheres to [Metrics 2.0](http://metrics20.org/) [standards](http://metrics20.org/spec/)
+* Adhere to [Metrics 2.0](http://metrics20.org/) [standards](http://metrics20.org/spec/)
 * No dependencies for basic operation.
+
+More verbosely: Existing system monitoring agents follow a rigid dotted string,
+value and timestamp model. The idea being [Metrics 2.0](http://metrics20.org/)
+is to create self-describing metrics with more depth.
 
 # Capabilities
 
