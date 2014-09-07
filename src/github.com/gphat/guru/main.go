@@ -3,6 +3,7 @@ package main
 import (
   "fmt"
   "log"
+  "net"
   "os"
   "time"
   "github.com/gphat/guru/cpu"
@@ -13,10 +14,6 @@ import (
   "github.com/gphat/guru/netstats"
   "github.com/gphat/guru/vmstat"
 )
-
-type HostInfo struct {
-  hostname string
-}
 
 func main() {
 
@@ -29,6 +26,11 @@ func main() {
     "vmstat": vmstat.GetMetrics,
   }
 
+  conn, err := net.Dial("udp", "localhost:8125")
+  if err != nil {
+    // blah
+  }
+
   ticker := time.NewTicker(time.Millisecond * 1000)
   go func() {
     for t := range ticker.C {
@@ -37,9 +39,8 @@ func main() {
         if err != nil {
           fmt.Printf("Error fetching hostname: %v\n", err)
         }
-        var hi = HostInfo{hostname: hostname}
 
-        fmt.Printf("Hello, from %v\n", hi.hostname)
+        fmt.Printf("Hello, from %v\n", hostname)
         fmt.Printf("Running: %v\n", plugin_name)
         resp := f()
 
@@ -50,17 +51,18 @@ func main() {
         // meta value for agent (guru)
         if(len(resp.Metrics) > 0) {
           for _,met := range resp.Metrics {
+            fmt.Fprintf(conn, fmt.Sprintf("%v", met))
             log.Println(met)
           }
         } else {
           log.Printf("Plugin '%v' returned 0 metrics.\n", plugin_name)
         }
-        fmt.Println("Ticker at", t)
+        log.Println("Ticker at", t)
       }
     }
   }()
 
   time.Sleep(time.Millisecond * 5000)
   ticker.Stop()
-  fmt.Println("Ticker stopped")
+  log.Println("Ticker stopped")
 }
