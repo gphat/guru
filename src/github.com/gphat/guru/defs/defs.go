@@ -25,7 +25,7 @@ func StringifyMetric(metric Metric) string {
   // Add another space as we're separated from meta by a space
   buffer.WriteString(" ")
 
-  buffer.WriteString(fmt.Sprintf("%v %v", metric.Value, metric.Timestamp))
+  buffer.WriteString(fmt.Sprintf("%v %v", metric.Value, metric.Timestamp.Unix()))
 
   return buffer.String()
 }
