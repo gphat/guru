@@ -3,7 +3,6 @@ package cpu
 import (
   "bufio"
   "github.com/gphat/guru/defs"
-  "github.com/gphat/guru/parser"
   "log"
   "os"
   "regexp"
@@ -65,14 +64,9 @@ func GetMetrics() defs.Response {
           // This one needs to be first because later we'll check for cpu
           metrics = ParseCPULine(timestamp, metrics, parts)
           continue
-        case strings.HasPrefix(sigil, "cpu"):
-          // This catches the total CPU line
-          _, ferr := parser.ParseFloats(parts, 2, 10)
-          if ferr != nil {
-            log.Printf("Cannot parse stat value '%v' as float64, skipping\n", parts[1])
-            continue
-          }
-          continue
+        // case strings.HasPrefix(sigil, "cpu"):
+        //   // This catches the total CPU line
+        //   continue
         default:
           // Ignore the other stuff
           continue
