@@ -5,6 +5,7 @@ import (
   "log"
   "os"
   "time"
+  "github.com/gphat/guru/cpu"
   "github.com/gphat/guru/defs"
   "github.com/gphat/guru/diskstats"
   "github.com/gphat/guru/loadavg"
@@ -20,6 +21,7 @@ type HostInfo struct {
 func main() {
 
   plugins := map[string]func() defs.Response{
+    "cpu": cpu.GetMetrics,
     "diskstats": diskstats.GetMetrics,
     "loadavg": loadavg.GetMetrics,
     "memory": memory.GetMetrics,

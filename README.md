@@ -5,7 +5,7 @@ daemon that collects metrics about the running system written in [Go](http://gol
 
 # Goals
 
-* Work ons modern Linuxes
+* Work on modern Linuxes (>= 2.6.11)
 * Adheres to [Metrics 2.0](http://metrics20.org/) [standards](http://metrics20.org/spec/)
 * No dependencies for basic operation.
 
@@ -19,9 +19,9 @@ Guru collects the following information
 * Memory information from `/proc/meminfo`
 * Network from `/proc/net/dev`
 * Virtual memory from `/proc/vminfo`
+* CPU from `/proc/stat`
 
 # TODO
 
 * df -k
-* /proc/stats
 * iostat?
