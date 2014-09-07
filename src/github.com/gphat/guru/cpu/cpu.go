@@ -96,7 +96,7 @@ func ParseCPULine(timestamp time.Time, metrics []defs.Metric, parts []string) []
     info["device"] = parts[0]
     info["target_type"] = "counter"
 
-    floatval, fconverr := strconv.ParseFloat(parts[1], 64)
+    floatval, fconverr := strconv.ParseFloat(parts[i], 64)
     if fconverr != nil {
       log.Printf("Cannot parse stat value '%v' as float64, skipping\n", parts[1])
       continue
