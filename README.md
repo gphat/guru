@@ -19,7 +19,7 @@ Guru collects the following information
 * Memory information from `/proc/meminfo`
 * Network from `/proc/net/dev`
 * Virtual memory from `/proc/vminfo`
-* CPU from `/proc/stat`
+* Per-CPU and context switches from `/proc/stat`
 
 # TODO
 
