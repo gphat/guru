@@ -63,7 +63,7 @@ func GetMetrics() defs.Response {
 
         case cpuLine.MatchString(sigil):
           // This one needs to be first because later we'll check for cpu
-          ParseCPULine(timestamp, metrics, parts)
+          metrics = ParseCPULine(timestamp, metrics, parts)
           continue
         case strings.HasPrefix(sigil, "cpu"):
           // This catches the total CPU line
@@ -88,7 +88,7 @@ func GetMetrics() defs.Response {
   }
 }
 
-func ParseCPULine(timestamp time.Time, metrics []defs.Metric, parts []string) {
+func ParseCPULine(timestamp time.Time, metrics []defs.Metric, parts []string) []defs.Metric {
 
   for i := 1; i < 10; i++ {
     info := make(map[string]string)
@@ -131,4 +131,6 @@ func ParseCPULine(timestamp time.Time, metrics []defs.Metric, parts []string) {
       Value:      floatval,
     })
   }
+
+  return metrics
 }
