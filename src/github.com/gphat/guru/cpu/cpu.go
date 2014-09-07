@@ -54,12 +54,12 @@ func GetMetrics() defs.Response {
       // We can't do an exact switch because we need to do some matching
       // so we'll use a boolean
       // TODO: interrupts? (intr)
-      log.Printf(sigil)
       switch {
         case sigil == "ctxt":
           info["what"] = "ctxt"
           info["unit"] = "Event"
         case cpuLine.MatchString(sigil):
+          log.Printf("ASDASDASD")
           // This one needs to be first because later we'll check for cpu
           ParseCPULine(timestamp, metrics, parts)
           continue
