@@ -17,7 +17,7 @@ import (
 
 func main() {
 
-	plugins := map[string]func() defs.Response{
+	plugins := map[string]func() (defs.Response, error){
 		"cpu":       cpu.GetMetrics,
 		"diskstats": diskstats.GetMetrics,
 		"loadavg":   loadavg.GetMetrics,
@@ -35,25 +35,28 @@ func main() {
 	meta := make(map[string]string)
 	meta["agent"] = "guru"
 
+	hostname, err := os.Hostname()
+	if err != nil {
+		fmt.Printf("Error fetching hostname: %v\n", err)
+	}
+	fmt.Printf("Hello, from %v\n", hostname)
+
 	ticker := time.NewTicker(time.Millisecond * 1000)
 	go func() {
 		for t := range ticker.C {
-			for plugin_name, f := range plugins {
-				hostname, err := os.Hostname()
-				if err != nil {
-					fmt.Printf("Error fetching hostname: %v\n", err)
-				}
 
-				fmt.Printf("Hello, from %v\n", hostname)
+			for plugin_name, f := range plugins {
 				fmt.Printf("Running: %v\n", plugin_name)
-				resp := f()
+				resp, err := f()
 
 				// XXX We don't have the hostname yet. It seems better to add
 				// "global" values to the Metric's Info field. Some example:
 				//  * server=hostname
 				//  * guru module?=memory or whatever
 				// meta value for agent (guru)
-				if len(resp.Metrics) > 0 {
+				if err != nil {
+					log.Printf("Failed to execut plugin '%v': %v\n", plugin_name, err)
+				} else if len(resp.Metrics) > 0 {
 					for _, met := range resp.Metrics {
 						fmt.Fprintf(conn, defs.StringifyMetric(hostname, meta, met))
 						log.Println(defs.StringifyMetric(hostname, meta, met))

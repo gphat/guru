@@ -1,7 +1,8 @@
 # Guru
 
 Guru is a Linux [system monitoring](http://en.wikipedia.org/wiki/System_monitoring)
-daemon that collects metrics about the running system written in [Go](http://golang.org/).
+daemon that collects metrics about the running system. It is written in
+[Go](http://golang.org/).
 
 # Goals
 

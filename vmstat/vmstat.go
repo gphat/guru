@@ -10,17 +10,16 @@ import (
 	"time"
 )
 
-func GetMetrics() defs.Response {
+func GetMetrics() (defs.Response, error) {
 
 	timestamp := time.Now()
 	file, err := os.Open("/proc/vmstat")
 	if err != nil {
 		// That's weird. Oh well, we'll have to emit an error and return
 		// empty work.
-		log.Fatal(err)
 		return defs.Response{
 			Metrics: make([]defs.Metric, 0),
-		}
+		}, nil
 	}
 	defer file.Close()
 
@@ -68,10 +67,12 @@ func GetMetrics() defs.Response {
 	}
 
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		return defs.Response{
+			Metrics: make([]defs.Metric, 0),
+		}, err
 	}
 
 	return defs.Response{
 		Metrics: metrics,
-	}
+	}, nil
 }

@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func GetMetrics() defs.Response {
+func GetMetrics() (defs.Response, error) {
 
 	var cpuLine = regexp.MustCompile(`^cpu[0-9]+`)
 
@@ -20,10 +20,9 @@ func GetMetrics() defs.Response {
 	if err != nil {
 		// That's weird. Oh well, we'll have to emit an error and return
 		// empty work.
-		log.Fatal(err)
 		return defs.Response{
 			Metrics: make([]defs.Metric, 0),
-		}
+		}, err
 	}
 	defer file.Close()
 
@@ -73,12 +72,14 @@ func GetMetrics() defs.Response {
 	}
 
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		return defs.Response{
+			Metrics: make([]defs.Metric, 0),
+		}, err
 	}
 
 	return defs.Response{
 		Metrics: metrics,
-	}
+	}, nil
 }
 
 func ParseCPULine(timestamp time.Time, metrics []defs.Metric, parts []string) []defs.Metric {
