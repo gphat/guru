@@ -23,7 +23,6 @@ func main() {
 		interval = kingpin.Flag("interval", "Interval to collect metrics.").Default("5s").Short('t').Duration()
 	)
 	kingpin.Parse()
-	log.Printf("%s", *interval)
 
 	plugins := map[string]func() (defs.Response, error){
 		"cpu":       cpu.GetMetrics,
