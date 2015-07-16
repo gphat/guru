@@ -5,6 +5,7 @@ import (
 	"github.com/gphat/guru/cpu"
 	"github.com/gphat/guru/defs"
 	"github.com/gphat/guru/diskstats"
+	"github.com/gphat/guru/filesystems"
 	"github.com/gphat/guru/loadavg"
 	"github.com/gphat/guru/memory"
 	"github.com/gphat/guru/netstats"
@@ -25,12 +26,13 @@ func main() {
 	kingpin.Parse()
 
 	plugins := map[string]func() (defs.Response, error){
-		"cpu":       cpu.GetMetrics,
-		"diskstats": diskstats.GetMetrics,
-		"loadavg":   loadavg.GetMetrics,
-		"memory":    memory.GetMetrics,
-		"netstats":  netstats.GetMetrics,
-		"vmstat":    vmstat.GetMetrics,
+		"cpu":         cpu.GetMetrics,
+		"diskstats":   diskstats.GetMetrics,
+		"filesystems": filesystems.GetMetrics,
+		"loadavg":     loadavg.GetMetrics,
+		"memory":      memory.GetMetrics,
+		"netstats":    netstats.GetMetrics,
+		"vmstat":      vmstat.GetMetrics,
 	}
 
 	conn, err := net.Dial("udp", "localhost:8125")
