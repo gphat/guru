@@ -9,13 +9,21 @@ import (
 	"github.com/gphat/guru/memory"
 	"github.com/gphat/guru/netstats"
 	"github.com/gphat/guru/vmstat"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"log"
 	"net"
 	"os"
+	"os/signal"
 	"time"
 )
 
 func main() {
+
+	var (
+		interval = kingpin.Flag("interval", "Interval to collect metrics.").Default("5s").Short('t').Duration()
+	)
+	kingpin.Parse()
+	log.Printf("%s", *interval)
 
 	plugins := map[string]func() (defs.Response, error){
 		"cpu":       cpu.GetMetrics,
@@ -41,7 +49,7 @@ func main() {
 	}
 	fmt.Printf("Hello, from %v\n", hostname)
 
-	ticker := time.NewTicker(time.Millisecond * 1000)
+	ticker := time.NewTicker(*interval)
 	go func() {
 		for t := range ticker.C {
 
@@ -55,7 +63,7 @@ func main() {
 				//  * guru module?=memory or whatever
 				// meta value for agent (guru)
 				if err != nil {
-					log.Printf("Failed to execut plugin '%v': %v\n", plugin_name, err)
+					log.Printf("Failed to execute plugin '%v': %v\n", plugin_name, err)
 				} else if len(resp.Metrics) > 0 {
 					for _, met := range resp.Metrics {
 						fmt.Fprintf(conn, defs.StringifyMetric(hostname, meta, met))
@@ -69,7 +77,16 @@ func main() {
 		}
 	}()
 
-	time.Sleep(time.Millisecond * 5000)
-	ticker.Stop()
-	log.Println("Ticker stopped")
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		for sig := range c {
+			fmt.Println("Got signal %s", sig)
+			log.Println("Stopping ticker")
+			ticker.Stop()
+			os.Exit(0)
+		}
+	}()
+
+	select {}
 }
