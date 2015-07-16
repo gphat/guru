@@ -30,3 +30,5 @@ Guru collects the following information
 
 * df -k
 * iostat?
+* CPU info?
+* Distro info?
