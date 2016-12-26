@@ -1,16 +1,23 @@
-package netstats
+package ifaces
 
 import (
 	"bufio"
-	"github.com/gphat/guru/defs"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/gphat/guru/defs"
 )
 
-func GetMetrics() (defs.Response, error) {
+type Ifaces struct{}
+
+func NewIfaces() *Ifaces {
+	return &Ifaces{}
+}
+
+func (p *Ifaces) GetMetrics() (defs.Response, error) {
 
 	timestamp := time.Now()
 	file, err := os.Open("/proc/net/dev")

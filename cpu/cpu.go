@@ -2,16 +2,23 @@ package cpu
 
 import (
 	"bufio"
-	"github.com/gphat/guru/defs"
-	"log"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/gphat/guru/defs"
 )
 
-func GetMetrics() (defs.Response, error) {
+type CPU struct{}
+
+func NewCPU() *CPU {
+	return &CPU{}
+}
+
+func (p *CPU) GetMetrics() (defs.Response, error) {
 
 	var cpuLine = regexp.MustCompile(`^cpu[0-9]+`)
 

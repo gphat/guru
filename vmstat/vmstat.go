@@ -2,15 +2,22 @@ package vmstat
 
 import (
 	"bufio"
-	"github.com/gphat/guru/defs"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/gphat/guru/defs"
 )
 
-func GetMetrics() (defs.Response, error) {
+type VMStat struct{}
+
+func NewVMStat() *VMStat {
+	return &VMStat{}
+}
+
+func (p *VMStat) GetMetrics() (defs.Response, error) {
 
 	timestamp := time.Now()
 	file, err := os.Open("/proc/vmstat")

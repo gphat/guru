@@ -1,16 +1,23 @@
-package diskstats
+package disks
 
 import (
 	"bufio"
-	"github.com/gphat/guru/defs"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/gphat/guru/defs"
 )
 
-func GetMetrics() (defs.Response, error) {
+type Disks struct{}
+
+func NewDisks() *Disks {
+	return &Disks{}
+}
+
+func (p *Disks) GetMetrics() (defs.Response, error) {
 
 	timestamp := time.Now()
 	file, err := os.Open("/proc/diskstats")

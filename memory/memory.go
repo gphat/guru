@@ -2,15 +2,23 @@ package memory
 
 import (
 	"bufio"
-	"github.com/gphat/guru/defs"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+
+	"github.com/gphat/guru/defs"
 )
 
-func GetMetrics() (defs.Response, error) {
+type Memory struct{}
+
+func NewMemory() *Memory {
+	return &Memory{}
+}
+
+func (p *Memory) GetMetrics() (defs.Response, error) {
 
 	timestamp := time.Now()
 	file, err := os.Open("/proc/meminfo")
